@@ -1,14 +1,36 @@
 <template>
-  <div id="tab-bar-item">
-    <div class="item-icon"><slot name="tab-icon"></slot></div>
-    <div class="item-icon-active"><slot name="tab-icon-active"></slot></div>
-    <div class="item-text"><slot name="tab-text"></slot></div>
+  <div id="tab-bar-item" @click="btnLink">
+    <div v-if="!isActive" class="item-icon"><slot name="tab-icon"></slot></div>
+    <div v-else class="item-icon-active"><slot name="tab-icon-active"></slot></div>
+    <div :style="activeStyle" class="item-text"><slot name="tab-text"></slot></div>
   </div>
 </template>
 
 <script>
     export default {
-        name: "tab-bar-item"
+        name: "tab-bar-item",
+        props:{
+          path:String,
+          activeColor:{
+            type:String,
+            default:()=>{
+              return 'red'
+            }
+          }
+        },
+        computed: {
+          isActive(){
+            return this.$route.path.indexOf(this.path) != -1
+          },
+          activeStyle(){
+            return this.isActive?{color:this.activeColor}:{}
+          }
+        },
+        methods: {
+          btnLink(){
+            this.$router.push(this.path)
+          }
+        },
     }
 </script>
 

@@ -36,5 +36,11 @@ const router = new VueRouter({
   routes,
   mode:'history'
 })
+ 
+// 这行代码解决的问题是：双击路由切换的时候页面页面正确的显示，但是报错Uncaught (in promise) NavigationDuplicated {_name: "NavigationDuplicated"}
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default router
