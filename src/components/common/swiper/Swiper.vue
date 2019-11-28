@@ -1,16 +1,16 @@
 <template>
-    <div id="hy-swiper">
-      <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-        <slot></slot>
-      </div>
-      <slot name="indicator">
-      </slot>
-      <div class="indicator">
-        <slot name="indicator" v-if="showIndicator && slideCount>1">
-          <div v-for="(item, index) in slideCount" class="indi-item" :class="{active: index === currentIndex-1}" :key="index"></div>
-        </slot>
-      </div>
+  <div id="hy-swiper">
+    <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+      <slot></slot>
     </div>
+    <slot name="indicator">
+    </slot>
+    <div class="indicator">
+      <slot name="indicator" v-if="showIndicator && slideCount>1">
+        <div v-for="(item, index) in slideCount" class="indi-item" :class="{active: index === currentIndex-1}" :key="index"></div>
+      </slot>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -68,7 +68,7 @@
 
       /**
        * 滚动到正确的位置
-       */
+      */
       scrollContent: function (currentPosition) {
         // 0.设置正在滚动
         this.scrolling = true;
@@ -126,6 +126,8 @@
 
         // 3.如果大于1个, 那么在前后分别添加一个slide
         if (this.slideCount > 1) {
+          // 克隆第一个元素和最后一个元素，
+          // 且把克隆的第一个节点放在一最后个元素前面，把克隆的最后一个节点放在第一个一个元素后面
           let cloneFirst = slidesEls[0].cloneNode(true);
           let cloneLast = slidesEls[this.slideCount - 1].cloneNode(true);
           swiperEl.insertBefore(cloneLast, slidesEls[0]);
